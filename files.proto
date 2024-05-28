@@ -1,0 +1,23 @@
+syntax= "proto3";
+option go_package = "hm/files";
+
+
+
+message CreateRequest{
+    string fileName = 1;
+    string message = 2;
+}
+
+message CreateResponse {
+    string path = 1;
+    bool isExists = 2;
+    bool isWrote = 3;
+    string message = 4;
+}
+
+service Files {
+    rpc CreateFile(CreateRequest) returns (CreateResponse);
+    rpc CheckFile(CreateRequest) returns (CreateResponse);
+    rpc WroteToFile(CreateRequest) returns (CreateResponse);
+    rpc ReadFromFile(CreateRequest) returns (CreateResponse);
+}
