@@ -17,7 +17,7 @@ message CreateResponse {
 
 service Files {
     rpc CreateFile(CreateRequest) returns (CreateResponse);
-    rpc CheckFile(CreateRequest) returns (CreateResponse);
+    rpc IsFileExists(CreateRequest) returns (CreateResponse);
     rpc WroteToFile(CreateRequest) returns (CreateResponse);
     rpc ReadFromFile(CreateRequest) returns (CreateResponse);
 }

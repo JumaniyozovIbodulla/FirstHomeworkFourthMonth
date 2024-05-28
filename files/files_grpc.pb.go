@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Files_CreateFile_FullMethodName   = "/Files/CreateFile"
-	Files_CheckFile_FullMethodName    = "/Files/CheckFile"
+	Files_IsFileExists_FullMethodName = "/Files/IsFileExists"
 	Files_WroteToFile_FullMethodName  = "/Files/WroteToFile"
 	Files_ReadFromFile_FullMethodName = "/Files/ReadFromFile"
 )
@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FilesClient interface {
 	CreateFile(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	CheckFile(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
+	IsFileExists(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	WroteToFile(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	ReadFromFile(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
@@ -52,9 +52,9 @@ func (c *filesClient) CreateFile(ctx context.Context, in *CreateRequest, opts ..
 	return out, nil
 }
 
-func (c *filesClient) CheckFile(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+func (c *filesClient) IsFileExists(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, Files_CheckFile_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Files_IsFileExists_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c *filesClient) ReadFromFile(ctx context.Context, in *CreateRequest, opts 
 // for forward compatibility
 type FilesServer interface {
 	CreateFile(context.Context, *CreateRequest) (*CreateResponse, error)
-	CheckFile(context.Context, *CreateRequest) (*CreateResponse, error)
+	IsFileExists(context.Context, *CreateRequest) (*CreateResponse, error)
 	WroteToFile(context.Context, *CreateRequest) (*CreateResponse, error)
 	ReadFromFile(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedFilesServer()
@@ -97,8 +97,8 @@ type UnimplementedFilesServer struct {
 func (UnimplementedFilesServer) CreateFile(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
 }
-func (UnimplementedFilesServer) CheckFile(context.Context, *CreateRequest) (*CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckFile not implemented")
+func (UnimplementedFilesServer) IsFileExists(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsFileExists not implemented")
 }
 func (UnimplementedFilesServer) WroteToFile(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WroteToFile not implemented")
@@ -137,20 +137,20 @@ func _Files_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Files_CheckFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Files_IsFileExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FilesServer).CheckFile(ctx, in)
+		return srv.(FilesServer).IsFileExists(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Files_CheckFile_FullMethodName,
+		FullMethod: Files_IsFileExists_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FilesServer).CheckFile(ctx, req.(*CreateRequest))
+		return srv.(FilesServer).IsFileExists(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -203,8 +203,8 @@ var Files_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Files_CreateFile_Handler,
 		},
 		{
-			MethodName: "CheckFile",
-			Handler:    _Files_CheckFile_Handler,
+			MethodName: "IsFileExists",
+			Handler:    _Files_IsFileExists_Handler,
 		},
 		{
 			MethodName: "WroteToFile",
